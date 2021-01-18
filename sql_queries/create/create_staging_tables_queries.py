@@ -2,10 +2,9 @@
 """
 import configparser
 import sys
-sys.path.insert("..")
 
 table_names_config = configparser.ConfigParser()
-table_names_config.read("table_names.cfg")
+table_names_config.read("sql_queries/table_names.cfg")
 
 staging_events_table_create= ("""
     CREATE TABLE IF NOT EXISTS {} (

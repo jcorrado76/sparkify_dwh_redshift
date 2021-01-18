@@ -4,10 +4,9 @@ already been created
 
 import configparser
 import sys
-sys.path.insert("..")
 
 table_names_config = configparser.ConfigParser()
-table_names_config.read("table_names.cfg")
+table_names_config.read("sql_queries/table_names.cfg")
 
 staging_events_table_drop = "DROP TABLE IF EXISTS {}"\
         .format(table_names_config["STAGING"]["events"])

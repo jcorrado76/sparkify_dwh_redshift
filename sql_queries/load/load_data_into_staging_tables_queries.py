@@ -4,12 +4,11 @@ staging tables
 
 import configparser
 import sys
-sys.path.insert("..")
 config = configparser.ConfigParser()
-config.read('dwh.cfg')
+config.read('sql_queries/dwh.cfg')
 
 table_names_config = configparser.ConfigParser()
-table_names_config.read("table_names.cfg")
+table_names_config.read("sql_queries/table_names.cfg")
 
 staging_events_copy = ("""
 COPY {} 

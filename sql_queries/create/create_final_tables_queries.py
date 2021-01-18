@@ -2,73 +2,64 @@
 """
 import configparser
 import sys
-sys.path.insert("..")
 
 table_names_config = configparser.ConfigParser()
-table_names_config.read("table_names.cfg")
-
+table_names_config.read("sql_queries/table_names.cfg")
 
 songplay_table_create = ("""
-    CREATE TABLE IF NOT EXISTS songplays (
-        songplay_id BIGINT IDENTITY(0, 1),
-        start_time TIMESTAMP,
-        user_id INT,
-        level VARCHAR(10),
-        song_id VARCHAR(50),
-        artist_id VARCHAR(50),
-        session_id INT,
-        location VARCHAR(50),
-        user_agent VARCHAR(50),
-        PRIMARY KEY (songplay_id));
-""")
+CREATE TABLE IF NOT EXISTS {} (
+    songplay_id  INT IDENTITY(0, 1) NOT NULL SORTKEY,
+    start_time   TIMESTAMP          NOT NULL,
+    user_id      INT                NOT NULL DISTKEY,
+    level        VARCHAR(10)        NOT NULL,
+    song_id      VARCHAR(50)        NOT NULL,
+    artist_id    VARCHAR(50)        NOT NULL,
+    session_id   INT                NOT NULL,
+    location     VARCHAR(100)       NULL,
+    user_agent   VARCHAR(255)       NULL,
+""".format(table_names_config["FINAL"]["songplays"]))
 
 user_table_create = ("""
-    CREATE TABLE IF NOT EXISTS users (
-        user_id INT,
-        first_name VARCHAR(50),
-        last_name VARCHAR(50),
-        gender VARCHAR(5),
-        level VARCHAR(10),
-        PRIMARY KEY(user_id)
-);
-""")
+CREATE TABLE IF NOT EXISTS {} (
+    user_id    INT               NOT NULL SORTKEY,
+    first_name VARCHAR(50)       NULL,
+    last_name  VARCHAR(50)       NULL,
+    gender     VARCHAR(5)        NULL,
+    level      VARCHAR(10)       NULL
+) diststyle all;
+""".format(table_names_config["FINAL"]["users"]))
 
 song_table_create = ("""
-    CREATE TABLE IF NOT EXISTS songs(
-	song_id VARCHAR(50),
-	title VARCHAR(50),
-	artist_id VARCHAR(50),
-	year INT,
-	duration DOUBLE PRECISION,
-	FOREIGN KEY (artist_id) REFERENCES artists(artist_id),
-	PRIMARY KEY (artist_id, song_id)
+CREATE TABLE IF NOT EXISTS {} (
+    song_id   VARCHAR(50)       NOT NULL SORTKEY,
+    title     VARCHAR(500)      NOT NULL,
+    artist_id VARCHAR(50)       NOT NULL,
+    year      INT               NOT NULL,
+    duration  DECIMAL(9)        NOT NULL
 );
-
-""")
+""".format(table_names_config["FINAL"]["songs"]))
 
 artist_table_create = ("""
-    CREATE TABLE IF NOT EXISTS artists (
-        artist_id VARCHAR(50),
-        name VARCHAR(50),
-        location VARCHAR(50),
-        latitude DOUBLE PRECISION,
-        longitude DOUBLE PRECISION,
-        PRIMARY KEY(artist_id)
-);
-""")
+CREATE TABLE IF NOT EXISTS {} (
+    artist_id VARCHAR(50)    NOT NULL SORTKEY,
+    name      VARCHAR(500)   NULL,
+    location  VARCHAR(500)   NULL,
+    latitude  DECIMAL(9)     NULL,
+    longitude DECIMAL(9)     NULL
+) diststyle all;
+""".format(table_names_config["FINAL"]["artists"]))
 
 time_table_create = ("""
-    CREATE TABLE IF NOT EXISTS time (
-        start_time TIMESTAMP NOT NULL,
-        hour INT NOT NULL,
-        day INT NOT NULL,
-        week INT NOT NULL,
-        month INT NOT NULL,
-        year INT NOT NULL,
-        weekday INT NOT NULL,
-        PRIMARY KEY (start_time)
-);
-""")
+CREATE TABLE IF NOT EXISTS {} (
+    start_time TIMESTAMP NOT NULL SORTKEY,
+    hour       SMALLINT  NULL,
+    day        SMALLINT  NULL,
+    week       SMALLINT  NULL,
+    month      SMALLINT  NULL,
+    year       SMALLINT  NULL,
+    weekday    SMALLINT  NULL,
+) diststyle all;
+""".format(table_names_config["FINAL"]["time"]))
 
 create_final_tables_queries = [songplay_table_create,
         user_table_create, song_table_create, artist_table_create,
