@@ -30,4 +30,5 @@ REGION 'US-WEST-2';
             config["S3"]["SONG_DATA"],
             config["IAM_ROLE"]["ARN"])
 
-copy_table_queries = [staging_events_copy, staging_songs_copy]
+copy_table_queries = [staging_events_copy,
+        staging_songs_copy]
