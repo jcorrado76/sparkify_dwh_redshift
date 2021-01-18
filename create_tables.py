@@ -6,9 +6,9 @@ them using the create SQL queries
 
 import configparser
 import psycopg2
-from drop_sql_queries import drop_table_queries
-from create_staging_tables_queries import create_staging_tables_queries
-from create_final_tables_queries import create_final_tables_queries
+from sql_queries import drop_table_queries, \
+        create_staging_tables_queries, \
+        create_final_tables_queries
 
 
 def drop_tables(cur, conn):
