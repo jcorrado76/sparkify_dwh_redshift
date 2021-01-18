@@ -29,3 +29,23 @@ In particular, when trying to generate the time and songplays tables, we needed 
 For this purpose, to avoid recomputing the timestamp, I created an intermediate temporary table where I computed the conversion of the epoch-based timestamp into a human-readable timestamp.
 
 Then, I used this intermediate timestamp table to populate the start time field of the fact table, and to power the extract commands used to determine the rest of the fields for the time table.
+
+# Repo Organization
+***
+
+This repository is organized in a way that is designed to be modular and extensible without having to change already existing code.
+In this way, we could potentially add more tables and more queries as needed, without having to alter pre-existing code.
+
+The driver scripts are `create_tables.py`, which drops any already existing tables, and creates the tables to be used in this project, and `etl.py`, which loads the data from the S3 bucket into the staging tables, and then from the staging tables into the final tables.
+
+The SQL queries are defined into the `sql_queries` directory.
+Inside the `sql_queries` directory, there are two subdirectories, `create` and `load`.
+
+The `create` subdirectory contains the SQL query definitions for dropping the tables, as well as creating both the staging and the final tables.
+The `load` subdirectory contains the SQL query definitions for loading the data from the S3 bucket into the staging tables, and for loading the data from the staging tables into the final tables.
+
+The `__init__.py` files in `sql_queries`, `load` and `create` are written to import the corresponding lists of SQL queries.
+This way, if a new user wants to write new driver scripts that access those SQL queries, they just have to write something of the form:
+`from sql_queries.load import [which_query you want]`.
+
+In addition, as a result of this modular nature, changes to the table names, or the SQL contents don't require changes in any other location in the code.
