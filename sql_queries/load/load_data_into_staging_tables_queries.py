@@ -3,7 +3,8 @@ staging tables
 """
 
 import configparser
-
+import sys
+sys.path.insert("..")
 config = configparser.ConfigParser()
 config.read('dwh.cfg')
 

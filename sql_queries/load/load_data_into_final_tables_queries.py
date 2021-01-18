@@ -2,6 +2,8 @@
 final tables
 """
 import configparser
+import sys
+sys.path.insert("..")
 table_names_config = configparser.ConfigParser()
 table_names_config.read("table_names.cfg")
 

@@ -1,6 +1,8 @@
 """This module contains the SQL queries to create the final tables used
 """
 import configparser
+import sys
+sys.path.insert("..")
 
 table_names_config = configparser.ConfigParser()
 table_names_config.read("table_names.cfg")

@@ -6,7 +6,7 @@ them using the create SQL queries
 
 import configparser
 import psycopg2
-from sql_queries import drop_table_queries, \
+from sql_queries.create import drop_table_queries, \
         create_staging_tables_queries, \
         create_final_tables_queries
 
