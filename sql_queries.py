@@ -28,7 +28,7 @@ TIME_TABLE_DROP = "DROP TABLE IF EXISTS {}"\
 
 # CREATE STAGING TABLES
 STAGING_EVENTS_TABLE_CREATE= ("""
-CREATE TABLE IF NOT EXISTS {} (
+    CREATE TABLE IF NOT EXISTS {} (
         event_id      BIGINT IDENTITY(0,1) NOT NULL,
         artist        VARCHAR              NULL,
         auth          VARCHAR              NULL,
@@ -47,12 +47,13 @@ CREATE TABLE IF NOT EXISTS {} (
         status        INT                  NULL,
         ts            BIGINT               NOT NULL,
         userAgent     VARCHAR              NULL,
-        userId        INT                  NULL
+        userId        INT                  NULL,
+        PRIMARY KEY(event_id)
 );
 """.format(table_names_config["STAGING"]["events"]))
 
 STAGING_SONGS_TABLE_CREATE = ("""
-CREATE TABLE IF NOT EXISTS {} (
+    CREATE TABLE IF NOT EXISTS {} (
         artist_id        VARCHAR(50)       NOT NULL SORTKEY DISTKEY,
         artist_latitude  DOUBLE PRECISION  NULL,
         artist_longitude DOUBLE PRECISION  NULL,
@@ -61,13 +62,14 @@ CREATE TABLE IF NOT EXISTS {} (
         song_id          VARCHAR(50)       NOT NULL,
         title            VARCHAR(500)      NULL,
         duration         DECIMAL(9)        NULL,
-        year             INT               NULL
+        year             INT               NULL,
+        PRIMARY KEY(artist_id)
 );
 """.format(table_names_config["STAGING"]["songs"]))
 
 # CREATE FINAL TABLES
 SONGPLAY_TABLE_CREATE = ("""
-     CREATE TABLE IF NOT EXISTS {} (
+    CREATE TABLE IF NOT EXISTS {} (
         songplay_id  INT IDENTITY(0, 1) NOT NULL SORTKEY,
         start_time   TIMESTAMP          NOT NULL,
         user_id      INT                NOT NULL DISTKEY,
@@ -76,7 +78,8 @@ SONGPLAY_TABLE_CREATE = ("""
         artist_id    VARCHAR(50)        NOT NULL,
         session_id   INT                NOT NULL,
         location     VARCHAR(100)       NULL,
-        user_agent   VARCHAR(255)       NULL
+        user_agent   VARCHAR(255)       NULL,
+        PRIMARY KEY(songplay_id)
 );""".format(table_names_config["FINAL"]["songplays"]))
 
 USER_TABLE_CREATE = ("""
@@ -85,7 +88,8 @@ USER_TABLE_CREATE = ("""
         first_name VARCHAR(50)       NULL,
         last_name  VARCHAR(50)       NULL,
         gender     VARCHAR(5)        NULL,
-        level      VARCHAR(10)       NULL
+        level      VARCHAR(10)       NULL,
+        PRIMARY KEY (user_id)
 ) diststyle all;
 """.format(table_names_config["FINAL"]["users"]))
 
@@ -95,7 +99,8 @@ SONG_TABLE_CREATE = ("""
         title     VARCHAR(500)      NOT NULL,
         artist_id VARCHAR(50)       NOT NULL,
         year      INT               NOT NULL,
-        duration  DECIMAL(9)        NOT NULL
+        duration  DECIMAL(9)        NOT NULL,
+        PRIMARY KEY (song_id)
 );
 """.format(table_names_config["FINAL"]["songs"]))
 
@@ -105,7 +110,8 @@ ARTIST_TABLE_CREATE = ("""
         name      VARCHAR(500)   NULL,
         location  VARCHAR(500)   NULL,
         latitude  DECIMAL(9)     NULL,
-        longitude DECIMAL(9)     NULL
+        longitude DECIMAL(9)     NULL,
+        PRIMARY KEY (artist_id)
 ) diststyle all;
 """.format(table_names_config["FINAL"]["artists"]))
 
@@ -117,7 +123,8 @@ TIME_TABLE_CREATE = ("""
         week       SMALLINT  NULL,
         month      SMALLINT  NULL,
         year       SMALLINT  NULL,
-        weekday    SMALLINT  NULL
+        weekday    SMALLINT  NULL,
+        PRIMARY KEY (start_time)
 ) diststyle all;
 """.format(table_names_config["FINAL"]["time"]))
 

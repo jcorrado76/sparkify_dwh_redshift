@@ -29,7 +29,7 @@ def main():
     """This function is the driver program for running the SQL queries
     """
     config = configparser.ConfigParser()
-    config.read('sql_queries/dwh.cfg')
+    config.read('dwh.cfg')
 
     conn = psycopg2.connect("host={} dbname={} user={} password={} port={}"\
             .format(*config['CLUSTER'].values()))
