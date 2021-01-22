@@ -11,21 +11,21 @@ table_names_config = configparser.ConfigParser()
 table_names_config.read("sql_queries/table_names.cfg")
 
 staging_events_copy = ("""
-COPY {} 
-FROM '{}'
-CREDENTIALS 'aws_iam_role={}'
-REGION 'US-WEST-2';
+copy {} from '{}'
+iam_role '{}'
+format as json '{}'
+region 'us-west-2';
 """).format(table_names_config["STAGING"]["events"],
             config["S3"]["LOG_DATA"],
-            config["IAM_ROLE"]["ARN"])
-
+            config["IAM_ROLE"]["ARN"],
+            config["S3"]["LOG_JSONPATH"])
 
 staging_songs_copy = ("""
-COPY {} 
-FROM '{}'
-CREDENTIALS 'aws_iam_role={}'
-FORMAT AS JSON 'auto'
-REGION 'US-WEST-2';
+copy {} from '{}'
+iam_role '{}'
+format as json 'auto'
+acceptinvchars as '^'
+region 'us-west-2';
 """).format(table_names_config["STAGING"]["songs"],
             config["S3"]["SONG_DATA"],
             config["IAM_ROLE"]["ARN"])

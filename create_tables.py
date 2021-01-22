@@ -9,12 +9,14 @@ import psycopg2
 from sql_queries.create import drop_table_queries, \
         create_staging_tables_queries, \
         create_final_tables_queries
+import logging
 
 
 def drop_tables(cur, conn):
     """This function executes the drop table queries
     """
     for query in drop_table_queries:
+        logging.info("Running drop query:\n{}".format(query))
         cur.execute(query)
         conn.commit()
 
@@ -26,6 +28,7 @@ def create_tables(cur, conn):
         cur.execute(query)
         conn.commit()
     for query in create_final_tables_queries:
+        logging.info("Running create query:\n{}".format(query))
         cur.execute(query)
         conn.commit()
 
@@ -34,7 +37,7 @@ def main():
     """Driver method for this script
     """
     config = configparser.ConfigParser()
-    config.read('dwh.cfg')
+    config.read('sql_queries/dwh.cfg')
 
     conn = psycopg2.connect("host={} dbname={} user={} password={} port={}"\
             .format(*config['CLUSTER'].values()))

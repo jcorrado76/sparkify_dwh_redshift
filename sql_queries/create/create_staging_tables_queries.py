@@ -7,39 +7,40 @@ table_names_config = configparser.ConfigParser()
 table_names_config.read("sql_queries/table_names.cfg")
 
 staging_events_table_create= ("""
-    CREATE TABLE IF NOT EXISTS {} (
-        artist VARCHAR(50),
-        auth VARCHAR(50),
-        firstName VARCHAR(50),
-        lastName VARCHAR(50),
-        gender VARCHAR(5),
-        itemInSession INT,
-        length DOUBLE PRECISION,
-        level VARCHAR(10),
-        location VARCHAR(50),
-        method VARCHAR(10),
-        page VARCHAR(50),
-        registration DOUBLE PRECISION,
-        sessionId INT,
-        song VARCHAR(50),
-        status INT,
-        ts BIGINT,
-        userAgent VARCHAR(50),
-        userId INT
+CREATE TABLE IF NOT EXISTS {} (
+        event_id      BIGINT IDENTITY(0,1) NOT NULL,
+        artist        VARCHAR              NULL,
+        auth          VARCHAR              NULL,
+        firstName     VARCHAR              NULL,
+        gender        VARCHAR              NULL,
+        itemInSession VARCHAR              NULL,
+        lastName      VARCHAR              NULL,
+        length        VARCHAR              NULL,
+        level         VARCHAR              NULL,
+        location      VARCHAR              NULL,
+        method        VARCHAR              NULL,
+        page          VARCHAR              NULL,
+        registration  VARCHAR              NULL,
+        sessionId     INT                  NOT NULL SORTKEY DISTKEY,
+        song          VARCHAR              NULL,
+        status        INT                  NULL,
+        ts            BIGINT               NOT NULL,
+        userAgent     VARCHAR              NULL,
+        userId        INT                  NULL
 );
 """.format(table_names_config["STAGING"]["events"]))
 
 staging_songs_table_create = ("""
-    CREATE TABLE IF NOT EXISTS {} (
-        artist_id VARCHAR(50),
-        artist_latitude DOUBLE PRECISION,
-        artist_longitude DOUBLE PRECISION,
-        artist_location VARCHAR(50),
-        artist_name VARCHAR(50),
-        song_id VARCHAR(50),
-        title VARCHAR(50),
-        duration DOUBLE PRECISION,
-        year INT
+CREATE TABLE IF NOT EXISTS {} (
+        artist_id        VARCHAR(50)       NOT NULL SORTKEY DISTKEY,
+        artist_latitude  DOUBLE PRECISION  NULL,
+        artist_longitude DOUBLE PRECISION  NULL,
+        artist_location  VARCHAR(500)      NULL,
+        artist_name      VARCHAR(500)      NULL,
+        song_id          VARCHAR(50)       NOT NULL,
+        title            VARCHAR(500)      NULL,
+        duration         DECIMAL(9)        NULL,
+        year             INT               NULL
 );
 """.format(table_names_config["STAGING"]["songs"]))
 

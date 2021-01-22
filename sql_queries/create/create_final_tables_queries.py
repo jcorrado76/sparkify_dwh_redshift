@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS {} (
     artist_id    VARCHAR(50)        NOT NULL,
     session_id   INT                NOT NULL,
     location     VARCHAR(100)       NULL,
-    user_agent   VARCHAR(255)       NULL,
-""".format(table_names_config["FINAL"]["songplays"]))
+    user_agent   VARCHAR(255)       NULL
+);""".format(table_names_config["FINAL"]["songplays"]))
 
 user_table_create = ("""
 CREATE TABLE IF NOT EXISTS {} (
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS {} (
     week       SMALLINT  NULL,
     month      SMALLINT  NULL,
     year       SMALLINT  NULL,
-    weekday    SMALLINT  NULL,
+    weekday    SMALLINT  NULL
 ) diststyle all;
 """.format(table_names_config["FINAL"]["time"]))
 

@@ -26,9 +26,6 @@ First, the data must be loaded from the S3 JSON files into staging tables in Red
 Then, we use SELECT INTO commands to generate the fact and dimension tables from the staging tables.
 
 In particular, when trying to generate the time and songplays tables, we needed to convert the given, epoch-based time stamp value into a proper timestamp first.
-For this purpose, to avoid recomputing the timestamp, I created an intermediate temporary table where I computed the conversion of the epoch-based timestamp into a human-readable timestamp.
-
-Then, I used this intermediate timestamp table to populate the start time field of the fact table, and to power the extract commands used to determine the rest of the fields for the time table.
 
 # Repo Organization
 ***
@@ -38,7 +35,18 @@ In this way, we could potentially add more tables and more queries as needed, wi
 
 The driver scripts are `create_tables.py`, which drops any already existing tables, and creates the tables to be used in this project, and `etl.py`, which loads the data from the S3 bucket into the staging tables, and then from the staging tables into the final tables.
 
-The SQL queries are defined into the `sql_queries` directory.
+The user simply needs to run:
+`python create_tables.py`
+`python etl.py`
+
+To create the tables and run the ETL logic.
+To replicate the same environment that was used for the development of this repo, an `environment.txt` file is provided.
+Create a conda environment with:
+`conda create --name [env_name] --file environment.txt`
+
+Then, run your python commands.
+
+The SQL queries are defined in the `sql_queries` directory.
 Inside the `sql_queries` directory, there are two subdirectories, `create` and `load`.
 
 The `create` subdirectory contains the SQL query definitions for dropping the tables, as well as creating both the staging and the final tables.
