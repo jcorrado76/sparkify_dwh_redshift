@@ -47,8 +47,7 @@ STAGING_EVENTS_TABLE_CREATE= ("""
         status        INT                  NULL,
         ts            BIGINT               NOT NULL,
         userAgent     VARCHAR              NULL,
-        userId        INT                  NULL,
-        PRIMARY KEY(event_id)
+        userId        INT                  NULL
 );
 """.format(table_names_config["STAGING"]["events"]))
 
@@ -63,7 +62,6 @@ STAGING_SONGS_TABLE_CREATE = ("""
         title            VARCHAR(500)      NULL,
         duration         DECIMAL(9)        NULL,
         year             INT               NULL,
-        PRIMARY KEY(artist_id)
 );
 """.format(table_names_config["STAGING"]["songs"]))
 
